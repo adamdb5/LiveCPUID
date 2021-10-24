@@ -1,6 +1,5 @@
-to debug in gdb:
+# [WIP] LiveCPUID
 
-1. Run qemu-gdb
-2. Open gdb
-3. Run `target remote :1234`
-4. Run `symbol-file ./Documents/boot/build/isofiles/boot/kernel.bin`
+A bootable ISO to display CPU information for x86 processors that support the CPUID instruction.
+
+This project is currently a work in progress, so there is limited functionality, and some issues when booting on bare metal.
