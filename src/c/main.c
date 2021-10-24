@@ -8,7 +8,7 @@ void asm_entry() {
   char name[13];
 
   /* CPUID Brand String */
-  name[13] = '\0';
+  name[12] = '\0';
   __get_cpuid(0x0, &a, (uint32_t *)name, (uint32_t *)(name + 8),
               (uint32_t *)(name + 4));
 

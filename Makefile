@@ -2,7 +2,7 @@ kernel := kernel.bin
 isoname := livecpuid.iso
 
 INCLUDE += c
-CFLAGS  += -ffreestanding -Wpedantic -Wall -std=c89
+CFLAGS  += -ffreestanding -Wpedantic -Wall -std=c89 -m32 -fno-stack-protector
 
 linker_script := linker.ld
 assembly_source_files := $(wildcard src/asm/*.asm)
@@ -26,14 +26,14 @@ qemu-gdb: $(kernel)
 
 $(kernel): $(assembly_object_files) $(c_object_files) $(linker_script)
 	@mkdir -p build/isofiles/boot/grub
-	ld -melf_i386 -n -T $(linker_script) -o build/isofiles/boot/$(kernel) $(assembly_object_files)
+	$(LD) -melf_i386 -n -T $(linker_script) -o build/isofiles/boot/$(kernel) $(assembly_object_files)
 	grub-mkrescue -o build/$(isoname) ./build/isofiles/
 	@cp grub.cfg build/isofiles/boot/grub
 
 # compile c files
 build/%.o: src/c/%.c
 	@mkdir -p $(shell dirname $@)
-	$(CC) -I $(INCLUDE) $(CFLAGS) -c $< -o $@ -fno-stack-protector -m32
+	$(CC) -I $(INCLUDE) $(CFLAGS) -c $< -o $@
 
 # compile assembly files
 build/%.o: src/asm/%.asm
