@@ -10,6 +10,7 @@ This project is currently a work in progress, so there is limited functionality,
 - x86 Assembler (e.g. nasm)
 - GNU Linker (ld) - LLVM's lld doesn't work
 - make
+- grub-mkrescue
 
 ## Debug Requirements:
 - Debugger (e.g. gdb, lldb) - a `.gdbinit` file is provided
