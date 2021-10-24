@@ -1,9 +1,8 @@
-global start
+global start      ; Define global entry point
 
-extern asm_entry ; Reference external asm_entry routine
+extern asm_entry  ; Reference external asm_entry routine
 
-; Bare minimum assembly
 section .text
-start:
-  jmp asm_entry
-  hlt
+start:            ; Entry point
+  jmp asm_entry   ; Jump to asm_entry in main.c
+  hlt             ; Halt the CPU

@@ -1,24 +1,19 @@
-; Multiboot 2 - Compliant Header
-; https://www.gnu.org/software/grub/manual/multiboot2/multiboot.html (Section 3.1.1)
+; Multiboot 2 header
 section .multiboot_header
 header_start:
-    MULTIBOOT_PAGE_ALIGN	equ 1 << 0
+    MULTIBOOT_PAGE_ALIGN    equ 1           ; Align to 4K boundaries
     MULTIBOOT_HEADER_ARCH   equ 0           ; 32-bit (protected) mode of i386
-    MULTIBOOT_HEADER_MAGIC	equ 0xe85250d6  ; Magic number
-    MULTIBOOT_CHECKSUM	equ - (MULTIBOOT_HEADER_MAGIC + (header_end - header_start))
-                                            ; magic number + checksum + 
-                                            ; flags should equal 0
-    MULTIBOOT_TYPE		equ 0
-    MULTIBOOT_FLAGS		equ 0
-    MULTIBOOT_SIZE		equ 8
+    MULTIBOOT_HEADER_MAGIC  equ 0xE85250D6  ; Magic number
+    MULTIBOOT_CHECKSUM      equ - (MULTIBOOT_HEADER_MAGIC + (header_end - header_start)) ; Checksum                              
+    MULTIBOOT_TYPE          equ 0
+    MULTIBOOT_FLAGS         equ 0
+    MULTIBOOT_SIZE          equ 8
 
-    ; This is the GRUB Multiboot header. A boot signature
     dd MULTIBOOT_HEADER_MAGIC
     dd MULTIBOOT_HEADER_ARCH
-    dd header_end - header_start            ; Size of the Header
+    dd header_end - header_start
     dd MULTIBOOT_CHECKSUM
 
-    ; Required end tag
     dw MULTIBOOT_TYPE
     dw MULTIBOOT_FLAGS
     dd MULTIBOOT_SIZE
