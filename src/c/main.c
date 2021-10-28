@@ -7,6 +7,10 @@
 
 /**
  * Largest Standard Function Number and Processor Vendor.
+ *
+ * \param LFuncStd a pointer to the variable to store the Largest Standard
+ * Function Number.
+ * \param Vendor a buffer to store the Vendor ID String.
  */
 void Fn0000_0000(unsigned int *LFuncStd, char Vendor[13]) {
   Vendor[12] = '\0';
@@ -14,9 +18,10 @@ void Fn0000_0000(unsigned int *LFuncStd, char Vendor[13]) {
               (unsigned int *)(Vendor + 8), (unsigned int *)(Vendor + 4));
 }
 
+/**
+ * Entry point from the assembly.
+ */
 void asm_entry() {
-
-  /* Largest func num and brand string */
   unsigned int LFuncStd;
   char Vendor[13], strNum[9];
 
