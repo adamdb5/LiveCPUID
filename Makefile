@@ -21,6 +21,9 @@ clean:
 qemu: $(kernel)
 	qemu-system-x86_64 -vga std -s -serial file:serial.log -cdrom build/$(isoname)
 
+qemu32: $(kernel)
+	qemu-system-i386 -vga std -s -serial file:serial.log -cdrom build/$(isoname)
+
 qemu-gdb: $(kernel)
 	qemu-system-x86_64 -vga std -s -serial file:serial.log -S -cdrom build/$(isoname)
 
