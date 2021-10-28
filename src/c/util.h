@@ -1,8 +1,6 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "types.h"
-
 /* Foreground colours */
 #define FG_BLACK 0x00
 #define FG_BLUE 0x01
@@ -40,7 +38,7 @@
 #define BG_BRIGHT_WHITE 0xF0
 
 /* Start address of the VGA buffer */
-#define VGA_BUFFER_START (uint16_t *)0xB8000
+#define VGA_BUFFER_START (unsigned short *)0xB8000
 
 /* Width of the VGA buffer (number of columns) */
 #define VGA_BUFFER_WIDTH 0x50
@@ -49,14 +47,18 @@
  * Writes a character to the VGA display buffer at the given offset with the
  * given colour.
  */
-void write_char(const char c, const uint16_t x, const uint16_t y,
-                const uint8_t colour);
+void write_char(const char c, const unsigned short x, const unsigned short y,
+                const unsigned char colour);
 
 /**
  * Writes a character array (string) to the VGA display buffer at the given
  * offset with the given colour.
  */
-void write_string(const char *str, const uint16_t x, const uint16_t y,
-                  const uint8_t colour);
+void write_string(const char *str, const unsigned short x,
+                  const unsigned short y, const unsigned char colour);
+
+void int_to_string(const int x, char buffer[9], const int base);
+
+void reverse_string(char *buffer, const unsigned int length);
 
 #endif /* UTIL_H */
