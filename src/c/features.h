@@ -130,7 +130,6 @@ extern const char *feature_names[];
 /* Feature flag string lengths */
 extern const unsigned char feature_name_lengths[];
 
-void write_feature(FeatureId featureId, unsigned short x, unsigned short y);
 void write_feature_list(Features *features, unsigned short y);
 
 #endif /* FEATURES_H */
