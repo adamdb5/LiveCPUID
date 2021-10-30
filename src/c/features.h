@@ -42,44 +42,8 @@
 #define MASK_FPU 0x00000001
 
 typedef struct {
-  unsigned char raz;
-  unsigned char f16c;
-  unsigned char avx;
-  unsigned char osxsave;
-  unsigned char xsave;
-  unsigned char aes;
-  unsigned char popcnt;
-  unsigned char sse42;
-  unsigned char sse41;
-  unsigned char cmpxchg16b;
-  unsigned char fma;
-  unsigned char ssse3;
-  unsigned char monitor;
-  unsigned char pclmulqdc;
-  unsigned char sse3;
-  unsigned char htt;
-  unsigned char sse2;
-  unsigned char sse;
-  unsigned char fxsr;
-  unsigned char mmx;
-  unsigned char clfsh;
-  unsigned char pse36;
-  unsigned char pat;
-  unsigned char cmov;
-  unsigned char mca;
-  unsigned char pge;
-  unsigned char mtrr;
-  unsigned char sysentersysexit;
-  unsigned char apic;
-  unsigned char cmpxchg8b;
-  unsigned char mce;
-  unsigned char pae;
-  unsigned char msr;
-  unsigned char tsc;
-  unsigned char pse;
-  unsigned char de;
-  unsigned char vme;
-  unsigned char fpu;
+  unsigned int fn0000_0001_ecx;
+  unsigned int fn0000_0001_edx;
 } Features;
 
 /* Feature flags */
@@ -99,6 +63,10 @@ typedef enum {
   MONITOR,
   PCLMULQDC,
   SSE3,
+  ECX_FEATURE_COUNT
+} ECXFeatureId;
+
+typedef enum {
   HTT,
   SSE2,
   SSE,
@@ -121,8 +89,12 @@ typedef enum {
   PSE,
   DE,
   VME,
-  FPU
-} FeatureId;
+  FPU,
+  EDX_FEATURE_COUNT
+} EDXFeatureId;
+
+/* Feature to mask map */
+extern const unsigned int feature_to_mask[];
 
 /* Feature flag string values */
 extern const char *feature_names[];
@@ -130,6 +102,23 @@ extern const char *feature_names[];
 /* Feature flag string lengths */
 extern const unsigned char feature_name_lengths[];
 
+/**
+ * Prints the next feature, modifying the used_with and current_y fields for the
+ * next call.
+ *
+ * \param feature_id the ID of the feature to print
+ * \param used_with a pointer to the current number of characters on the line.
+ * \param surrent_y a pointer to the current row.
+ */
+void _print_next_feature(unsigned int feature_id, unsigned short *used_width,
+                         unsigned short *current_y);
+
+/**
+ * Displays the list of features supported by the processor.
+ *
+ * \param features the struct of features supported by the CPU.
+ * \param y the y position (row) to start displaying the list.
+ */
 void write_feature_list(Features *features, unsigned short y);
 
 #endif /* FEATURES_H */
