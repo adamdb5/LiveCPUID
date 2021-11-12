@@ -30,8 +30,8 @@ const unsigned char feature_name_lengths[] = {
     3, 4, 3, 7, 5, 3, 6, 5, 5,  10, 3, 5, 7, 9, 4, 3, 4, 3, 4,
     3, 5, 5, 3, 4, 3, 3, 4, 15, 4,  9, 3, 3, 3, 3, 3, 2, 3, 3};
 
-void _print_next_feature(unsigned int feature_id, unsigned short *used_width,
-                         unsigned short *current_y) {
+void print_next_feature(unsigned int feature_id, unsigned short *used_width,
+                        unsigned short *current_y) {
   if (*used_width + feature_name_lengths[feature_id] > VGA_BUFFER_WIDTH) {
     (*current_y)++;
     *used_width = 0;
@@ -42,23 +42,27 @@ void _print_next_feature(unsigned int feature_id, unsigned short *used_width,
   *used_width = *used_width + feature_name_lengths[feature_id] + 1;
 }
 
-void write_feature_list(Features *features, unsigned short y) {
+int write_feature_list(Features *features, unsigned short y) {
   unsigned short used_width = 0;
   unsigned short current_y_pos = y;
   unsigned int feature_id;
+  int start_y = y;
 
   write_string("Supported Features:", 0, current_y_pos++, FG_WHITE);
 
   /* ECX features */
-  for (feature_id = 0; feature_id < ECX_FEATURE_COUNT; feature_id++) {
+  for (feature_id = 0; feature_id < ECX_0000_0001_FEATURE_COUNT; feature_id++) {
     if (features->fn0000_0001_ecx & feature_to_mask[feature_id])
-      _print_next_feature(feature_id, &used_width, &current_y_pos);
+      print_next_feature(feature_id, &used_width, &current_y_pos);
   }
 
   /* EDX features */
-  for (feature_id = 0; feature_id < EDX_FEATURE_COUNT; feature_id++) {
-    if (features->fn0000_0001_edx & feature_to_mask[feature_id])
-      _print_next_feature(feature_id + ECX_FEATURE_COUNT, &used_width,
-                          &current_y_pos);
+  for (feature_id = 0; feature_id < EDX_0000_0001_FEATURE_COUNT; feature_id++) {
+    if (features->fn0000_0001_edx &
+        feature_to_mask[feature_id + ECX_0000_0001_FEATURE_COUNT])
+      print_next_feature(feature_id + ECX_0000_0001_FEATURE_COUNT, &used_width,
+                         &current_y_pos);
   }
+
+  return current_y_pos - start_y;
 }

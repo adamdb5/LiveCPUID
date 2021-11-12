@@ -52,8 +52,8 @@
  * \param y the y-coordinate to display the character.
  * \param colour the colour of the glyph (foreground | background).
  */
-void write_char(const char c, const unsigned short x, const unsigned short y,
-                const unsigned char colour);
+void write_char(char c, unsigned short x, unsigned short y,
+                unsigned char colour);
 
 /**
  * Writes a character array (string) to the VGA display buffer at the given
@@ -64,8 +64,8 @@ void write_char(const char c, const unsigned short x, const unsigned short y,
  * \param y the y-coordinate to display the character.
  * \param colour the colour of the string (foreground | background).
  */
-void write_string(const char *str, const unsigned short x,
-                  const unsigned short y, const unsigned char colour);
+void write_string(const char *str, unsigned short x,
+                  unsigned short y, unsigned char colour);
 
 /**
  * Converts an integer to a string, storing the output into the given buffer.
@@ -74,7 +74,7 @@ void write_string(const char *str, const unsigned short x,
  * \param buffer the buffer to store the string.
  * \param base the base of the output (bin=2, dec=10, hex=16, ...).
  */
-void int_to_string(const int x, char buffer[9], const int base);
+unsigned int int_to_string( int x, char *buffer,  int base);
 
 /**
  * Reverses a string, storing the output into the source buffer.
@@ -82,6 +82,8 @@ void int_to_string(const int x, char buffer[9], const int base);
  * \param buffer the buffer containing the string, and the output destination.
  * \param length the length of the string.
  */
-void reverse_string(char *buffer, const unsigned int length);
+void reverse_string(char *buffer, unsigned int length);
+
+void zero_mem(void *buffer, unsigned int length);
 
 #endif /* UTIL_H */
