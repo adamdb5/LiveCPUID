@@ -32,7 +32,6 @@ typedef struct {
   unsigned int lwp_save_state_offset;
 } ProcessorExtendedStateEnumeration;
 
-
 typedef struct {
   unsigned int largest_standard_function_number;
   char vendor[13];

@@ -64,8 +64,8 @@ void write_char(char c, unsigned short x, unsigned short y,
  * \param y the y-coordinate to display the character.
  * \param colour the colour of the string (foreground | background).
  */
-void write_string(const char *str, unsigned short x,
-                  unsigned short y, unsigned char colour);
+void write_string(const char *str, unsigned short x, unsigned short y,
+                  unsigned char colour);
 
 /**
  * Converts an integer to a string, storing the output into the given buffer.
@@ -74,7 +74,7 @@ void write_string(const char *str, unsigned short x,
  * \param buffer the buffer to store the string.
  * \param base the base of the output (bin=2, dec=10, hex=16, ...).
  */
-unsigned int int_to_string( int x, char *buffer,  int base);
+unsigned int int_to_string(int x, char *buffer, int base);
 
 /**
  * Reverses a string, storing the output into the source buffer.

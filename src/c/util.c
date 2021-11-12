@@ -20,7 +20,7 @@ unsigned int int_to_string(const int x, char *buffer, const int base) {
   int i = 0;
   int num = x;
   unsigned char is_negative = 0;
-  unsigned char* u_buffer = (unsigned char*)buffer;
+  unsigned char *u_buffer = (unsigned char *)buffer;
 
   if (num == 0) {
     buffer[0] = '0';
@@ -64,7 +64,7 @@ void reverse_string(char *buffer, const unsigned int length) {
 
 void zero_mem(void *buffer, unsigned int length) {
   unsigned int i;
-  char *c_buffer = (char*)buffer;
-  for(i = 0; i < length; i++)
+  char *c_buffer = (char *)buffer;
+  for (i = 0; i < length; i++)
     c_buffer[i] = '\0';
 }

@@ -41,8 +41,7 @@ void fn0000_0005(CPUID *cpuid) {
   cpuid->monitor_mwait_features.monitor_line_size_min = 0x0000FFFF & eax;
   cpuid->monitor_mwait_features.monitor_line_size_max = 0x0000FFFF & ebx;
   cpuid->monitor_mwait_features.interrupt_break_event = 0x00000002 & ecx;
-  cpuid->monitor_mwait_features.enumerate_extensions =   0x00000001 & ecx;
-
+  cpuid->monitor_mwait_features.enumerate_extensions = 0x00000001 & ecx;
 }
 
 void fn0000_0006(CPUID *cpuid) {
@@ -50,8 +49,8 @@ void fn0000_0006(CPUID *cpuid) {
 
   __get_cpuid(0x6, &eax, &ebx, &ecx, &edx);
 
-  cpuid->thermal_power_features.effective_frequency_interface = ecx & 0x00000001;
-
+  cpuid->thermal_power_features.effective_frequency_interface =
+      ecx & 0x00000001;
 }
 
 void fn0000_0007(CPUID *cpuid) {
@@ -60,7 +59,8 @@ void fn0000_0007(CPUID *cpuid) {
   ecx = 0;
   __get_cpuid(0x7, &eax, &ebx, &ecx, &edx);
 
-  cpuid->structured_extended_feature_identifiers.bit_manipulation_instruction_support = ebx & 0x00000004;
+  cpuid->structured_extended_feature_identifiers
+      .bit_manipulation_instruction_support = ebx & 0x00000004;
 }
 
 void fn0000_000D(CPUID *cpuid) {
@@ -69,10 +69,13 @@ void fn0000_000D(CPUID *cpuid) {
   ecx = 0;
   __get_cpuid(0xD, &eax, &ebx, &ecx, &edx);
 
-  cpuid->processor_extended_state_enumeration.x_feature_supported_mask_lower = eax;
+  cpuid->processor_extended_state_enumeration.x_feature_supported_mask_lower =
+      eax;
   cpuid->processor_extended_state_enumeration.x_feature_enabled_size_max = ebx;
-  cpuid->processor_extended_state_enumeration.x_feature_supported_size_max = ecx;
-  cpuid->processor_extended_state_enumeration.x_feature_supported_mask_upper = edx;
+  cpuid->processor_extended_state_enumeration.x_feature_supported_size_max =
+      ecx;
+  cpuid->processor_extended_state_enumeration.x_feature_supported_mask_upper =
+      edx;
 
   ecx = 2;
   __get_cpuid(0xD, &eax, &ebx, &ecx, &edx);
