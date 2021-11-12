@@ -8,7 +8,7 @@ This project is currently a work in progress, so there is limited functionality,
 
 - C compiler (e.g. gcc, clang)
 - x86 Assembler (e.g. nasm)
-- GNU Linker (ld) - LLVM's lld doesn't work
+- Linker (e.g. ld, ld.ldd)
 - make
 - grub-mkrescue
 
