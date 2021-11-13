@@ -29,3 +29,12 @@ void print_fn0000_0005(CPUID *cpuid, unsigned int *current_line) {
   write_char(')', 25 + str_len_a + 7 + str_len_b, *current_line, FG_CYAN);
   (*current_line)++;
 }
+
+void print_fn8000_0001(CPUID *cpuid, unsigned int *current_line) {
+  char num_string[9];
+
+  write_string("Largest Extended Function Number: ", 0, *current_line, FG_LIGHT_MAGENTA);
+  int_to_string((int)cpuid->largest_extended_function_number, num_string, 10);
+  write_string(num_string, 35, *current_line, FG_WHITE);
+  (*current_line)++;
+}

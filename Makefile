@@ -38,7 +38,7 @@ qemu-gdb: $(kernel)
 
 $(kernel): $(assembly_object_files) $(c_object_files) $(linker_script)
 	@mkdir -p build/isofiles/boot/grub
-	$(LD)  $(LFLAGS) -T $(linker_script) -o build/isofiles/boot/$(kernel) $(assembly_object_files) $(c_object_files)
+	$(LD) $(LFLAGS) -T $(linker_script) -o build/isofiles/boot/$(kernel) $(assembly_object_files) $(c_object_files)
 	@cp grub.cfg build/isofiles/boot/grub
 	grub-mkrescue -o build/$(isoname) ./build/isofiles/
 

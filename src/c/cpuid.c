@@ -87,3 +87,14 @@ void fn0000_000D(CPUID *cpuid) {
   cpuid->processor_extended_state_enumeration.lwp_save_state_size = eax;
   cpuid->processor_extended_state_enumeration.lwp_save_state_offset = ebx;
 }
+
+void fn8000_0000(CPUID *cpuid) {
+  unsigned int ebx, ecx, edx;
+
+  __get_cpuid(0x0, &cpuid->largest_extended_function_number,
+              &ebx, &ecx, &edx);
+}
+
+void fn8000_0001(CPUID *cpuid) {
+
+}

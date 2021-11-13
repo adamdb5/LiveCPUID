@@ -33,7 +33,13 @@ typedef struct {
 } ProcessorExtendedStateEnumeration;
 
 typedef struct {
+  unsigned char package_type;
+  unsigned short brand_id;
+} ExtendedBrandId;
+
+typedef struct {
   unsigned int largest_standard_function_number;
+  unsigned int largest_extended_function_number;
   char vendor[13];
   Family family;
   Misc misc;
@@ -88,5 +94,8 @@ void fn0000_0007(CPUID *cpuid);
  * @param cpuid
  */
 void fn0000_000D(CPUID *cpuid);
+
+void fn8000_0000(CPUID *cpuid);
+void fn8000_0001(CPUID *cpuid);
 
 #endif /* CPUID_H */
