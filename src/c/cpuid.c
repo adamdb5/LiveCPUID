@@ -65,27 +65,26 @@ void fn0000_0007(CPUID *cpuid) {
 
 void fn0000_000D(CPUID *cpuid) {
   unsigned int eax, ebx, ecx, edx;
+  ProcessorExtendedStateEnumeration *ex_state_enum;
 
   ecx = 0;
   __get_cpuid(0xD, &eax, &ebx, &ecx, &edx);
 
-  cpuid->processor_extended_state_enumeration.x_feature_supported_mask_lower =
-      eax;
-  cpuid->processor_extended_state_enumeration.x_feature_enabled_size_max = ebx;
-  cpuid->processor_extended_state_enumeration.x_feature_supported_size_max =
-      ecx;
-  cpuid->processor_extended_state_enumeration.x_feature_supported_mask_upper =
-      edx;
+  ex_state_enum = &cpuid->processor_extended_state_enumeration;
+  ex_state_enum->x_feature_supported_mask_lower = eax;
+  ex_state_enum->x_feature_enabled_size_max = ebx;
+  ex_state_enum->x_feature_supported_size_max = ecx;
+  ex_state_enum->x_feature_supported_mask_upper = edx;
 
   ecx = 2;
   __get_cpuid(0xD, &eax, &ebx, &ecx, &edx);
-  cpuid->processor_extended_state_enumeration.ymm_save_state_size = eax;
-  cpuid->processor_extended_state_enumeration.ymm_save_state_offset = ebx;
+  ex_state_enum->ymm_save_state_size = eax;
+  ex_state_enum->ymm_save_state_offset = ebx;
 
   ecx = 62;
   __get_cpuid(0xD, &eax, &ebx, &ecx, &edx);
-  cpuid->processor_extended_state_enumeration.lwp_save_state_size = eax;
-  cpuid->processor_extended_state_enumeration.lwp_save_state_offset = ebx;
+  ex_state_enum->lwp_save_state_size = eax;
+  ex_state_enum->lwp_save_state_offset = ebx;
 }
 
 void fn8000_0000(CPUID *cpuid) {

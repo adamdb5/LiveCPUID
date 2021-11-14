@@ -2,7 +2,7 @@ kernel := kernel.bin
 isoname := livecpuid.iso
 
 INCLUDE += c
-CFLAGS  += -ffreestanding -Wpedantic -Wall -std=c89 -m32 -fno-stack-protector
+CFLAGS  += -ffreestanding -fno-builtin -fno-stack-protector -Wpedantic -Wall -std=c89 -m32
 LFLAGS  += -z max-page-size=4096 -melf_i386 -n
 
 # GNU
