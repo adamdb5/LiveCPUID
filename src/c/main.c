@@ -28,7 +28,7 @@ void asm_entry() {
     goto extended;
   fn0000_0001(&cpuid);
   print_fn0000_0001(&cpuid, &current_line);
-  current_line++;
+  current_line;
 
   if (cpuid.largest_standard_function_number < 0x5)
     goto extended;
@@ -54,7 +54,7 @@ extended:
   fn8000_0003(&cpuid);
   fn8000_0004(&cpuid);
 
-  write_string(cpuid.processor_name, 0, ++current_line, FG_YELLOW);
+  write_string(cpuid.processor_name, 0, current_line, FG_YELLOW);
 
 halt:
   /* busy wait */

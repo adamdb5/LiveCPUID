@@ -103,4 +103,6 @@ void fn8000_0002(CPUID *cpuid);
 void fn8000_0003(CPUID *cpuid);
 void fn8000_0004(CPUID *cpuid);
 
+void execute_all_functions(CPUID *cpuid);
+
 #endif /* CPUID_H */
