@@ -37,6 +37,7 @@ typedef struct {
   unsigned short brand_id;
 } ExtendedBrandId;
 
+
 typedef struct {
   unsigned int largest_standard_function_number;
   unsigned int largest_extended_function_number;
@@ -48,6 +49,7 @@ typedef struct {
   ThermalPowerFeatures thermal_power_features;
   StructuredExtendedFeatureIdentifiers structured_extended_feature_identifiers;
   ProcessorExtendedStateEnumeration processor_extended_state_enumeration;
+  ExtendedBrandId extended_brand_id;
 
 } CPUID;
 

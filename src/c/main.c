@@ -12,7 +12,15 @@ void asm_entry() {
   CPUID cpuid;
   unsigned int current_line = 0;
 
+  write_string("LiveCPUID v0.1                 ", 0, 0, FG_BRIGHT_WHITE);
+  write_string("(c) Adam Bruce 2021", 61, 0, FG_BRIGHT_WHITE);
+  write_string("----------------------------------------"
+               "----------------------------------------",
+               0, 1, FG_WHITE);
+  current_line = 2;
+
   fn0000_0000(&cpuid);
+  fn8000_0000(&cpuid);
 
   if (cpuid.largest_standard_function_number < 0x1)
     goto extended;
@@ -37,16 +45,15 @@ void asm_entry() {
   fn0000_000D(&cpuid);
 
 extended:
-  write_string("Executing fn8000_0000", 0, 9, FG_ORANGE);
-  fn8000_0000(&cpuid);
-  if(cpuid.largest_extended_function_number < 0x1)
+
+  if (cpuid.largest_extended_function_number < 0x1)
     goto halt;
   fn8000_0001(&cpuid);
-  current_line = 10;
   print_fn8000_0001(&cpuid, &current_line);
+  write_string("howdy", 10, ++current_line, FG_LIGHT_BLUE);
 
 halt:
   /* busy wait */
-  while(1);
-
+  while (1)
+    ;
 }

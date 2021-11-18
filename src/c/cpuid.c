@@ -6,8 +6,8 @@ void fn0000_0000(CPUID *cpuid) {
   char *vendor = cpuid->vendor;
   vendor[12] = '\0';
   __get_cpuid(0x0, &cpuid->largest_standard_function_number,
-              (unsigned int *)vendor, (unsigned int *)(vendor + 8),
-              (unsigned int *)(vendor + 4));
+              (unsigned int *) vendor, (unsigned int *) (vendor + 8),
+              (unsigned int *) (vendor + 4));
 }
 
 void fn0000_0001(CPUID *cpuid) {
@@ -50,7 +50,7 @@ void fn0000_0006(CPUID *cpuid) {
   __get_cpuid(0x6, &eax, &ebx, &ecx, &edx);
 
   cpuid->thermal_power_features.effective_frequency_interface =
-      ecx & 0x00000001;
+          ecx & 0x00000001;
 }
 
 void fn0000_0007(CPUID *cpuid) {
@@ -60,7 +60,7 @@ void fn0000_0007(CPUID *cpuid) {
   __get_cpuid(0x7, &eax, &ebx, &ecx, &edx);
 
   cpuid->structured_extended_feature_identifiers
-      .bit_manipulation_instruction_support = ebx & 0x00000004;
+          .bit_manipulation_instruction_support = ebx & 0x00000004;
 }
 
 void fn0000_000D(CPUID *cpuid) {
@@ -95,5 +95,10 @@ void fn8000_0000(CPUID *cpuid) {
 }
 
 void fn8000_0001(CPUID *cpuid) {
+  unsigned int eax, ebx, ecx, edx;
 
+  __get_cpuid(0x1, &eax, &ebx, &ecx, &edx);
+
+  cpuid->extended_brand_id.package_type = ebx & 0xF0000000;
+  cpuid->extended_brand_id.brand_id = ebx & 0x0000FFFF;
 }
