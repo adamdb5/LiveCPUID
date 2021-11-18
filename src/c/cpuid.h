@@ -53,6 +53,9 @@ typedef struct {
 
 } CPUID;
 
+void do_cpuid(unsigned int leaf, unsigned int *eax, unsigned int *ebx,
+              unsigned int *ecx, unsigned int *edx);
+
 /**
  * Largest Standard Function Number and Processor Vendor.
  *
