@@ -127,13 +127,13 @@ void print_next_extended_feature(unsigned int feature_id,
   *used_width = *used_width + extended_feature_name_lengths[feature_id] + 1;
 }
 
-int write_standard_feature_list(Features *features, unsigned short y) {
+int write_feature_list(Features *features, unsigned short y, int extended) {
   unsigned short used_width = 0;
   unsigned short current_y_pos = y;
   unsigned int feature_id;
   int start_y = y;
 
-  write_string("Supported Standard Features:", 0, current_y_pos++, FG_WHITE);
+  write_string("Supported Features:", 0, current_y_pos++, FG_WHITE);
 
   /* ECX standard features */
   for (feature_id = 0; feature_id < ECX_0000_0001_FEATURE_COUNT; feature_id++) {
@@ -149,29 +149,22 @@ int write_standard_feature_list(Features *features, unsigned short y) {
                                   &used_width, &current_y_pos);
   }
 
-  return current_y_pos - start_y;
-}
+  if (extended) {
+    /* ECX standard features */
+    for (feature_id = 0; feature_id < ECX_8000_0001_FEATURE_COUNT;
+         feature_id++) {
+      if (features->fn8000_0001_ecx & extended_feature_to_mask[feature_id])
+        print_next_extended_feature(feature_id, &used_width, &current_y_pos);
+    }
 
-int write_extended_feature_list(Features *features, unsigned short y) {
-  unsigned short used_width = 0;
-  unsigned short current_y_pos = y;
-  unsigned int feature_id;
-  int start_y = y;
-
-  write_string("Supported Extended Features:", 0, current_y_pos++, FG_WHITE);
-
-  /* ECX standard features */
-  for (feature_id = 0; feature_id < ECX_8000_0001_FEATURE_COUNT; feature_id++) {
-    if (features->fn8000_0001_ecx & extended_feature_to_mask[feature_id])
-      print_next_extended_feature(feature_id, &used_width, &current_y_pos);
-  }
-
-  /* EDX standard features */
-  for (feature_id = 0; feature_id < EDX_8000_0001_FEATURE_COUNT; feature_id++) {
-    if (features->fn8000_0001_edx &
-        extended_feature_to_mask[feature_id + ECX_8000_0001_FEATURE_COUNT])
-      print_next_extended_feature(feature_id + ECX_8000_0001_FEATURE_COUNT,
-                                  &used_width, &current_y_pos);
+    /* EDX standard features */
+    for (feature_id = 0; feature_id < EDX_8000_0001_FEATURE_COUNT;
+         feature_id++) {
+      if (features->fn8000_0001_edx &
+          extended_feature_to_mask[feature_id + ECX_8000_0001_FEATURE_COUNT])
+        print_next_extended_feature(feature_id + ECX_8000_0001_FEATURE_COUNT,
+                                    &used_width, &current_y_pos);
+    }
   }
 
   return current_y_pos - start_y;

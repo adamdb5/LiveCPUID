@@ -10,7 +10,9 @@ void print_fn0000_0001(CPUID *cpuid, unsigned int *current_line) {
                FG_WHITE);
   write_string(lsfn_string, 74, *current_line, FG_YELLOW);
   (*current_line)++;
-  *current_line += write_standard_feature_list(&cpuid->features, *current_line);
+  *current_line +=
+      write_feature_list(&cpuid->features, *current_line,
+                         cpuid->largest_extended_function_number > 0x1);
 }
 
 void print_fn0000_0005(CPUID *cpuid, unsigned int *current_line) {
@@ -37,5 +39,4 @@ void print_fn8000_0001(CPUID *cpuid, unsigned int *current_line) {
   int_to_string((int)cpuid->largest_extended_function_number, num_string, 10);
   write_string(num_string, 35, *current_line, FG_MAGENTA);
   (*current_line)++;
-  *current_line += write_extended_feature_list(&cpuid->features, *current_line);
 }

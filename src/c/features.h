@@ -119,7 +119,6 @@ void print_next_extended_feature(unsigned int feature_id,
  * \param features the struct of features supported by the CPU.
  * \param y the y position (row) to start displaying the list.
  */
-int write_standard_feature_list(Features *features, unsigned short y);
-int write_extended_feature_list(Features *features, unsigned short y);
+int write_feature_list(Features *features, unsigned short y, int extended);
 
 #endif /* FEATURES_H */
