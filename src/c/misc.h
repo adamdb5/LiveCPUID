@@ -6,6 +6,9 @@
 #define MASK_LOGICAL_PROC_COUNT 0x00FF0000
 #define MASK_LOCAL_APIC_ID 0xFF000000
 
+/**
+ * Stores miscelaneous information about the processor.
+ */
 typedef struct {
   unsigned char local_apcid_id;
   unsigned char logical_processor_count;

@@ -133,8 +133,6 @@ int write_feature_list(Features *features, unsigned short y, int extended) {
   unsigned int feature_id;
   int start_y = y;
 
-  write_string("Supported Features:", 0, current_y_pos++, FG_WHITE);
-
   /* ECX standard features */
   for (feature_id = 0; feature_id < ECX_0000_0001_FEATURE_COUNT; feature_id++) {
     if (features->fn0000_0001_ecx & standard_feature_to_mask[feature_id])
@@ -150,14 +148,14 @@ int write_feature_list(Features *features, unsigned short y, int extended) {
   }
 
   if (extended) {
-    /* ECX standard features */
+    /* ECX extended features */
     for (feature_id = 0; feature_id < ECX_8000_0001_FEATURE_COUNT;
          feature_id++) {
       if (features->fn8000_0001_ecx & extended_feature_to_mask[feature_id])
         print_next_extended_feature(feature_id, &used_width, &current_y_pos);
     }
 
-    /* EDX standard features */
+    /* EDX extended features */
     for (feature_id = 0; feature_id < EDX_8000_0001_FEATURE_COUNT;
          feature_id++) {
       if (features->fn8000_0001_edx &

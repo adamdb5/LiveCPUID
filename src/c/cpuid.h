@@ -5,22 +5,35 @@
 #include "features.h"
 #include "misc.h"
 
+/**
+ * Stores information about monitor line size and mwait features from
+ * fn0000_0005.
+ */
 typedef struct {
   unsigned short monitor_line_size_min;
   unsigned short monitor_line_size_max;
   unsigned char interrupt_break_event;
   unsigned char enumerate_extensions;
-
 } MonitorMWaitFeatures;
 
+/**
+ * Stores information about the effective frequency interface from fn0000_0006.
+ */
 typedef struct {
   unsigned char effective_frequency_interface;
 } ThermalPowerFeatures;
 
+/**
+ * Stores information about bit manipulation instruction support from
+ * fn0000_0007.
+ */
 typedef struct {
   unsigned char bit_manipulation_instruction_support;
 } StructuredExtendedFeatureIdentifiers;
 
+/**
+ * Stores information extended state enumeration from fn0000_000D.
+ */
 typedef struct {
   unsigned int x_feature_supported_mask_lower;
   unsigned int x_feature_supported_mask_upper;
@@ -32,11 +45,17 @@ typedef struct {
   unsigned int lwp_save_state_offset;
 } ProcessorExtendedStateEnumeration;
 
+/**
+ * Stores information about package type and brand id from fn8000_0001.
+ */
 typedef struct {
   unsigned char package_type;
   unsigned short brand_id;
 } ExtendedBrandId;
 
+/**
+ * Stores all CPUID information about a processor.
+ */
 typedef struct {
   unsigned int largest_standard_function_number;
   unsigned int largest_extended_function_number;
@@ -50,9 +69,18 @@ typedef struct {
   StructuredExtendedFeatureIdentifiers structured_extended_feature_identifiers;
   ProcessorExtendedStateEnumeration processor_extended_state_enumeration;
   ExtendedBrandId extended_brand_id;
-
 } CPUID;
 
+/**
+ * Executes the cpuid instruction on the given leaf, and loads the results into
+the given pointers.
+ *
+ * \param leaf the CPUID leaf.
+ * \param eax a pointer to load the value from eax into.
+ * \param ebx a pointer to load the value from ebx into.
+ * \param ecx a pointer to load the value from ecx into.
+ * \param edx a pointer to load the value from edx into.
+ */
 void do_cpuid(unsigned int leaf, unsigned int *eax, unsigned int *ebx,
               unsigned int *ecx, unsigned int *edx);
 
@@ -64,7 +92,8 @@ void do_cpuid(unsigned int leaf, unsigned int *eax, unsigned int *ebx,
 void fn0000_0000(CPUID *cpuid);
 
 /**
- * Gets information about the processor's family, model and stepping
+ * Gets information about the processor's family, model and stepping and
+ * supported standard features.
  *
  * \param cpuid A pointer to a CPUID structure.
  */
@@ -93,19 +122,46 @@ void fn0000_0006(CPUID *cpuid);
 void fn0000_0007(CPUID *cpuid);
 
 /**
- * Gets information about the extended state enumeration supported by the
- * processor.
+ * Gets information about extended state enumeration supported by the procesor.
  *
- * @param cpuid
+ * \param cpuid A pointer to a CPUID structure.
  */
 void fn0000_000D(CPUID *cpuid);
 
+/**
+ * Largest Extended Function Number and Processor Brand Id part 2.
+ *
+ * \param cpuid A pointer to a CPUID structure.
+ */
 void fn8000_0000(CPUID *cpuid);
-void fn8000_0001(CPUID *cpuid);
-void fn8000_0002(CPUID *cpuid);
-void fn8000_0003(CPUID *cpuid);
-void fn8000_0004(CPUID *cpuid);
 
-void execute_all_functions(CPUID *cpuid);
+/**
+ * Gets information about the processor's package type and supported extended
+ * features.
+ *
+ * \param cpuid A pointer to a CPUID structure.
+ */
+void fn8000_0001(CPUID *cpuid);
+
+/**
+ * Loads the first 16 bytes of the processor name.
+ *
+ * \param cpuid A pointer to a CPUID structure.
+ */
+void fn8000_0002(CPUID *cpuid);
+
+/**
+ * Loads the second 16 bytes of the processor name.
+ *
+ * \param cpuid A pointer to a CPUID structure.
+ */
+void fn8000_0003(CPUID *cpuid);
+
+/**
+ * Loads the thrid 16 bytes of the processor name.
+ *
+ * \param cpuid A pointer to a CPUID structure.
+ */
+void fn8000_0004(CPUID *cpuid);
 
 #endif /* CPUID_H */

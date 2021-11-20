@@ -7,6 +7,9 @@
 #define MASK_EXT_MODEL 0x000F0000
 #define MASK_EXT_FAMILY 0x0FF00000
 
+/**
+ * Stores information about the processor family.
+ */
 typedef struct {
   unsigned char stepping;
   unsigned char base_model;

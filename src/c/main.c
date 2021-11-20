@@ -14,50 +14,50 @@ void asm_entry() {
   CPUID cpuid;
   unsigned int current_line = 0;
 
-  write_string("LiveCPUID v0.1                 ", 0, 0, FG_BRIGHT_WHITE);
-  write_string("(c) Adam Bruce 2021", 61, 0, FG_BRIGHT_WHITE);
+  write_string(" LiveCPUID v0.1                 ", 0, 0, FG_BRIGHT_WHITE);
+  write_string("(c) Adam Bruce 2021", 60, 0, FG_BRIGHT_WHITE);
   write_string("---------------------------------------------------------------"
                "-----------------",
                0, 1, FG_WHITE);
   current_line = 2;
 
+  /* Query standard functions */
   fn0000_0000(&cpuid);
+  if (cpuid.largest_standard_function_number >= 0x1)
+    fn0000_0001(&cpuid);
+  if (cpuid.largest_standard_function_number >= 0x5)
+    fn0000_0005(&cpuid);
+  if (cpuid.largest_standard_function_number >= 0x6)
+    fn0000_0006(&cpuid);
+  if (cpuid.largest_standard_function_number >= 0x7)
+    fn0000_0007(&cpuid);
+  if (cpuid.largest_standard_function_number >= 0xD)
+    fn0000_000D(&cpuid);
+
+  /* Query extended functions */
   fn8000_0000(&cpuid);
+  if (cpuid.largest_extended_function_number >= 0x1)
+    fn8000_0001(&cpuid);
+  if (cpuid.largest_extended_function_number >= 0x4) {
+    fn8000_0002(&cpuid);
+    fn8000_0003(&cpuid);
+    fn8000_0004(&cpuid);
+  }
 
-  if (cpuid.largest_standard_function_number < 0x1)
-    goto extended;
-  fn0000_0001(&cpuid);
-  print_fn0000_0001(&cpuid, &current_line);
+  write_string("Vendor: ", 0, current_line, FG_WHITE);
+  write_string(cpuid.vendor, 8, current_line, FG_YELLOW);
+  write_string("Name: ", 26, current_line, FG_WHITE);
+  if (cpuid.largest_extended_function_number >= 0x4)
+    write_string(cpuid.processor_name, 32, current_line++, FG_YELLOW);
+  else
+    write_string("Not Supported", 32, current_line++, FG_YELLOW);
 
-  if (cpuid.largest_standard_function_number < 0x5)
-    goto extended;
-  fn0000_0005(&cpuid);
-  print_fn0000_0005(&cpuid, &current_line);
+  write_string("Features:", 0, current_line++, FG_WHITE);
+  current_line +=
+      write_feature_list(&cpuid.features, current_line,
+                         cpuid.largest_extended_function_number > 0x1);
 
-  if (cpuid.largest_standard_function_number < 0x6)
-    goto extended;
-  fn0000_0006(&cpuid);
-
-  if (cpuid.largest_standard_function_number < 0x7)
-    goto extended;
-  fn0000_0007(&cpuid);
-
-  if (cpuid.largest_standard_function_number < 0xD)
-    goto extended;
-  fn0000_000D(&cpuid);
-
-extended:
-  if (cpuid.largest_extended_function_number < 0x4)
-    goto halt;
-  fn8000_0002(&cpuid);
-  fn8000_0003(&cpuid);
-  fn8000_0004(&cpuid);
-
-  write_string("Processor ID: ", 0, current_line, FG_WHITE);
-  write_string(cpuid.processor_name, 14, current_line, FG_YELLOW);
-
-halt:
-  /* busy wait */
+  /* Halting causes the BIOS to reboot, so we just keep the CPU busy. */
   while (1)
     ;
 }

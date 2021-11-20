@@ -98,7 +98,7 @@ extern const unsigned char standard_feature_name_lengths[];
 extern const unsigned char extended_feature_name_lengths[];
 
 /**
- * Prints the next feature, modifying the used_with and current_y fields for the
+ * Prints the next standard feature, modifying the used_with and current_y fields for the
  * next call.
  *
  * \param feature_id the ID of the feature to print
@@ -109,6 +109,14 @@ void print_next_standard_feature(unsigned int feature_id,
                                  unsigned short *used_width,
                                  unsigned short *current_y);
 
+/**
+ * Prints the next extended feature, modifying the used_with and current_y fields for the
+ * next call.
+ *
+ * \param feature_id the ID of the feature to print
+ * \param used_with a pointer to the current number of characters on the line.
+ * \param current_y a pointer to the current row.
+ */
 void print_next_extended_feature(unsigned int feature_id,
                                  unsigned short *used_width,
                                  unsigned short *current_y);

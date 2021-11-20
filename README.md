@@ -11,6 +11,8 @@ This project is currently a work in progress, so there is limited functionality,
 - Linker (e.g. ld, ld.ldd)
 - make
 - grub-mkrescue
+- xorriso
+- mtools
 
 ## Debug Requirements:
 - Debugger (e.g. gdb, lldb) - a `.gdbinit` file is provided

@@ -84,6 +84,12 @@ unsigned int int_to_string(int x, char *buffer, int base);
  */
 void reverse_string(char *buffer, unsigned int length);
 
+/**
+ * Zeroes a region of memory from the specified address.
+ * 
+ * \param buffer a pointer to the memory region.
+ * \param length the number of bytes to zero.
+ */ 
 void zero_mem(void *buffer, unsigned int length);
 
 #endif /* UTIL_H */
