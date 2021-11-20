@@ -165,5 +165,5 @@ int write_feature_list(Features *features, unsigned short y, int extended) {
     }
   }
 
-  return current_y_pos - start_y;
+  return current_y_pos - start_y + 1;
 }

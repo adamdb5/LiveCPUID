@@ -140,3 +140,31 @@ void fn8000_0004(CPUID *cpuid) {
            (unsigned int *)(proc_name + 32 + 12));
   proc_name[47] = '\0';
 }
+
+void fn8000_0005(CPUID *cpuid) {
+  unsigned int eax, ebx, ecx, edx;
+  do_cpuid(0x80000005, &eax, &ebx, &ecx, &edx);
+
+  cpuid->l1_cache_identifiers.l1dtlb2_and_4m_data_assoc =
+      (eax & 0xFF000000) >> 24;
+  cpuid->l1_cache_identifiers.l1dtlb2_and_4m_data_size =
+      (eax & 0x00FF0000) >> 16;
+  cpuid->l1_cache_identifiers.l1dtlb2_and_4m_inst_assoc =
+      (eax & 0x0000FF00) >> 8;
+  cpuid->l1_cache_identifiers.l1dtlb2_and_4m_inst_size = (eax & 0x000000FF);
+
+  cpuid->l1_cache_identifiers.l1dtlb4k_data_assoc = (ebx & 0xFF000000) >> 24;
+  cpuid->l1_cache_identifiers.l1dtlb4k_data_size = (ebx & 0x00FF0000) >> 16;
+  cpuid->l1_cache_identifiers.l1dtlb4k_inst_assoc = (ebx & 0x0000FF00) >> 8;
+  cpuid->l1_cache_identifiers.l1dtlb4k_inst_size = (ebx & 0x000000FF);
+
+  cpuid->l1_cache_identifiers.l1dc_size = (ecx & 0xFF000000) >> 24;
+  cpuid->l1_cache_identifiers.l1dc_assoc = (ecx & 0x00FF0000) >> 16;
+  cpuid->l1_cache_identifiers.l1dc_lines_per_tag = (ecx & 0x0000FF00) >> 8;
+  cpuid->l1_cache_identifiers.l1dc_line_size = (ecx & 0x000000FF);
+
+  cpuid->l1_cache_identifiers.l1ic_size = (edx & 0xFF000000) >> 24;
+  cpuid->l1_cache_identifiers.l1ic_assoc = (edx & 0x00FF0000) >> 16;
+  cpuid->l1_cache_identifiers.l1ic_lines_per_tag = (edx & 0x0000FF00) >> 8;
+  cpuid->l1_cache_identifiers.l1ic_line_size = (edx & 0x000000FF);
+}
