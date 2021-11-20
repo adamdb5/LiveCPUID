@@ -168,3 +168,35 @@ void fn8000_0005(CPUID *cpuid) {
   cpuid->l1_cache_identifiers.l1ic_lines_per_tag = (edx & 0x0000FF00) >> 8;
   cpuid->l1_cache_identifiers.l1ic_line_size = (edx & 0x000000FF);
 }
+
+void fn8000_0006(CPUID *cpuid) {
+  unsigned int eax, ebx, ecx, edx;
+  do_cpuid(0x80000006, &eax, &ebx, &ecx, &edx);
+
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb2_and_4m_data_assoc =
+      (eax & 0xF0000000) >> 28;
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb2_and_4m_data_size =
+      (eax & 0x0FFF0000) >> 16;
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb2_and_4m_inst_assoc =
+      (eax & 0x0000F000) >> 12;
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb2_and_4m_inst_size =
+      (eax & 0x00000FFF);
+
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb4k_data_assoc =
+      (ebx & 0xF0000000) >> 28;
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb4k_data_size =
+      (ebx & 0x0FFF0000) >> 16;
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb4k_inst_assoc =
+      (ebx & 0x0000F000) >> 12;
+  cpuid->l2_and_l3_cache_identifiers.l2dtlb4k_inst_size = (ebx & 0x00000FFF);
+
+  cpuid->l2_and_l3_cache_identifiers.l2_size = (ecx & 0xFFFF0000) >> 16;
+  cpuid->l2_and_l3_cache_identifiers.l2_assoc = (ecx & 0x0000F000) >> 12;
+  cpuid->l2_and_l3_cache_identifiers.l2_lines_per_tag = (ecx & 0x00000F00) >> 8;
+  cpuid->l2_and_l3_cache_identifiers.l2_line_size = (ecx & 0x000000FF);
+
+  cpuid->l2_and_l3_cache_identifiers.l3_size = (edx & 0xFFFC0000) >> 18;
+  cpuid->l2_and_l3_cache_identifiers.l3_assoc = (edx & 0x0000F000) >> 12;
+  cpuid->l2_and_l3_cache_identifiers.l3_lines_per_tag = (edx & 0x00000F00) >> 8;
+  cpuid->l2_and_l3_cache_identifiers.l3_line_size = (edx & 0x000000FF);
+}

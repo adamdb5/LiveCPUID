@@ -2,7 +2,7 @@ kernel := kernel.bin
 isoname := livecpuid.iso
 
 INCLUDE += c
-CFLAGS  += -ffreestanding -fno-builtin -fno-stack-protector -Wpedantic -Wall -std=c89 -m32
+CFLAGS  += -ffreestanding -fno-builtin -fno-stack-protector -Wpedantic -Wall -std=c89 -m32 -g
 LFLAGS  += -z max-page-size=4096 -melf_i386 -n
 
 # GNU
@@ -34,7 +34,7 @@ qemu32: $(kernel)
 	qemu-system-i386 -vga std -cdrom build/$(isoname)
 
 qemu-gdb: $(kernel)
-	qemu-system-x86_64 -vga std -s -serial file:serial.log -S -cdrom build/$(isoname)
+	qemu-system-x86_64 -vga std -gdb tcp:localhost:1234 -S -cdrom build/$(isoname)
 
 $(kernel): $(assembly_object_files) $(c_object_files) $(linker_script)
 	@mkdir -p build/isofiles/boot/grub

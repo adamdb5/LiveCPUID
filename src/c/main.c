@@ -46,6 +46,8 @@ void asm_entry() {
   }
   if (cpuid.largest_extended_function_number >= 0x5)
     fn8000_0005(&cpuid);
+  if (cpuid.largest_extended_function_number >= 0x6)
+    fn8000_0006(&cpuid);
 
   write_string("Vendor: ", 0, current_line, FG_WHITE);
   write_string(cpuid.vendor, 8, current_line, FG_YELLOW);
@@ -68,6 +70,16 @@ void asm_entry() {
   write_string("L1DTlb2and4MSize: ", 0, current_line, FG_WHITE);
   int_to_string(cpuid.l1_cache_identifiers.l1dtlb2_and_4m_data_size, buffer,
                 10);
+  write_string(buffer, 19, current_line++, FG_WHITE);
+
+  write_string("L2DTlb2and4MAssoc: ", 0, current_line, FG_WHITE);
+  int_to_string(cpuid.l2_and_l3_cache_identifiers.l2dtlb2_and_4m_data_assoc,
+                buffer, 10);
+  write_string(buffer, 19, current_line++, FG_WHITE);
+
+  write_string("L2DTlb2and4MSize: ", 0, current_line, FG_WHITE);
+  int_to_string(cpuid.l2_and_l3_cache_identifiers.l2dtlb2_and_4m_data_size,
+                buffer, 10);
   write_string(buffer, 19, current_line++, FG_WHITE);
 
   /* Halting causes the BIOS to reboot, so we just keep the CPU busy. */

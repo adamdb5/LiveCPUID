@@ -2,16 +2,18 @@
 #include "util.h"
 
 const unsigned int standard_feature_to_mask[] = {
-    MASK_RAZ,     MASK_F16C,       MASK_AVX,    MASK_OSXSAVE,
-    MASK_XSAVE,   MASK_AES,        MASK_POPCNT, MASK_SSE42,
-    MASK_SSE41,   MASK_CMPXCHG16B, MASK_FMA,    MASK_SSSE3,
-    MASK_MONITOR, MASK_PCLMULQDQ,  MASK_SSE3,   MASK_HTT,
-    MASK_SSE2,    MASK_SSE,        MASK_FXSR,   MASK_MMX,
-    MASK_CLFSH,   MASK_PSE36,      MASK_PAT,    MASK_CMOV,
-    MASK_MCA,     MASK_PGE,        MASK_MTRR,   MASK_SYSENTERSYSEXIT,
-    MASK_APIC,    MASK_CMPXCHG8B,  MASK_MCE,    MASK_PAE,
-    MASK_MSR,     MASK_TSC,        MASK_PSE,    MASK_DE,
-    MASK_VME,     MASK_FPU,
+    MASK_RDRND,      MASK_F16C,        MASK_AVX,    MASK_OSXSAVE, MASK_XSAVE,
+    MASK_AESNI,      MASK_TSCDEADLINE, MASK_POPCNT, MASK_MOVBE,   MASK_SSE42,
+    MASK_SSE41,      MASK_DCA,         MASK_PCID,   MASK_PDCM,    MASK_XTPR,
+    MASK_CMPXCHG16B, MASK_FMA,         MASK_CNXTID, MASK_SSSE3,   MASK_TM2,
+    MASK_EIST,       MASK_SMX,         MASK_VMX,    MASK_DSCPL,   MASK_MONITOR,
+    MASK_DTES64,     MASK_PCLMULQDQ,   MASK_SSE3,   MASK_PBE,     MASK_TM,
+    MASK_HTT,        MASK_SS,          MASK_SSE2,   MASK_SSE,     MASK_FXSR,
+    MASK_MMX,        MASK_ACPI,        MASK_DS,     MASK_CLFSH,   MASK_PSN,
+    MASK_PSE36,      MASK_PAT,         MASK_CMOV,   MASK_MCA,     MASK_PGE,
+    MASK_MTRR,       MASK_SEP,         MASK_APIC,   MASK_CX8,     MASK_MCE,
+    MASK_PAE,        MASK_MSR,         MASK_TSC,    MASK_PSE,     MASK_DE,
+    MASK_VME,        MASK_FPU,
 };
 
 const unsigned int extended_feature_to_mask[] = {
@@ -46,21 +48,22 @@ const unsigned int extended_feature_to_mask[] = {
 };
 
 const char *standard_feature_names[] = {
-    "RAZ",     "F16C",       "AVX",    "OSXSAVE",
-    "XSAVE",   "AES",        "POPCNT", "SSE42",
-    "SSE41",   "CMPXCHG16B", "FMA",    "SSSE3",
-    "MONITOR", "PCLMULQDC",  "SSE3",   "HTT",
-    "SSE2",    "SSE",        "FXSR",   "MMX",
-    "CLFSH",   "PSE36",      "PAT",    "CMOV",
-    "MCA",     "PGE",        "MTRR",   "SYSENTERSYSEXIT",
-    "APIC",    "CMPXCHG8B",  "MCE",    "PAE",
-    "MSR",     "TSC",        "PSE",    "DE",
-    "VME",     "FPU",
+    "RDRND",       "F16C",   "AVX",       "OSXSAVE",    "XSAVE", "AESNI",
+    "TSCDEADLINE", "POPCNT", "MOVBE",     "SSE42",      "SSE41", "DCA",
+    "PCID",        "PDCM",   "XTPR",      "CMPXCHG16B", "FMA",   "CNXTID",
+    "SSSE3",       "TM2",    "EIST",      "SMX",        "VMX",   "DSCPL",
+    "MONITOR",     "DTES64", "PCLMULQDC", "SSE3",       "PBE",   "TM",
+    "HTT",         "SS",     "SSE2",      "SSE",        "FXSR",  "MMX",
+    "ACPI",        "DS",     "CLFSH",     "PSN",        "PSE36", "PAT",
+    "CMOV",        "MCA",    "PGE",       "MTRR",       "SEP",   "APIC",
+    "CX8",         "MCE",    "PAE",       "MSR",        "TSC",   "PSE",
+    "DE",          "VME",    "FPU",
 };
 
 const char *extended_feature_names[] = {
     "TOPOLOGYEXTENSIONS",
     "TBM",
+    "NODEID",
     "FMA4",
     "LWP",
     "WDT",
@@ -82,19 +85,21 @@ const char *extended_feature_names[] = {
     "LM",
     "RDTSCP",
     "PAGE1GB",
+    "FFXSR",
     "MMXEXT",
     "NX",
     "SYSCALLSYSRET",
 };
 
 const unsigned char standard_feature_name_lengths[] = {
-    3, 4, 3, 7, 5, 3, 6, 5, 5,  10, 3, 5, 7, 9, 4, 3, 4, 3, 4,
-    3, 5, 5, 3, 4, 3, 3, 4, 15, 4,  9, 3, 3, 3, 3, 3, 2, 3, 3,
+    5, 4, 3, 7, 5, 5, 11, 6, 5, 5, 5, 3, 4, 4, 4, 10, 3, 6, 5,
+    3, 4, 3, 3, 5, 7, 6,  9, 4, 3, 2, 3, 2, 4, 3, 4,  3, 4, 2,
+    5, 3, 5, 3, 4, 3, 3,  4, 3, 4, 3, 3, 3, 3, 3, 3,  2, 3, 3,
 };
 
 const unsigned char extended_feature_name_lengths[] = {
-    18, 3,  4, 3, 3, 6, 3, 3, 4, 13, 11, 5, 3,
-    9,  12, 3, 9, 8, 5, 8, 2, 6, 7,  6,  2, 13,
+    18, 3,  6, 4, 3, 3, 6, 3, 3, 4, 13, 11, 5, 3,
+    9,  12, 3, 9, 8, 5, 8, 2, 6, 7, 5,  6,  2, 13,
 };
 
 void print_next_standard_feature(unsigned int feature_id,

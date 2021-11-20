@@ -54,7 +54,7 @@ typedef struct {
 } ExtendedBrandId;
 
 /**
- * Stores information about caches and their associativity.
+ * Stores information about L1 caches and their associativity.
  */
 typedef struct {
   unsigned char l1dtlb2_and_4m_data_assoc;
@@ -76,6 +76,28 @@ typedef struct {
 } L1CacheIdentifiers;
 
 /**
+ * Stores information about L2 and L3 caches and their associativity.
+ */
+typedef struct {
+  unsigned char l2dtlb2_and_4m_data_assoc;
+  unsigned short l2dtlb2_and_4m_data_size;
+  unsigned char l2dtlb2_and_4m_inst_assoc;
+  unsigned short l2dtlb2_and_4m_inst_size;
+  unsigned char l2dtlb4k_data_assoc;
+  unsigned short l2dtlb4k_data_size;
+  unsigned char l2dtlb4k_inst_assoc;
+  unsigned short l2dtlb4k_inst_size;
+  unsigned short l2_size;
+  unsigned char l2_assoc;
+  unsigned char l2_lines_per_tag;
+  unsigned char l2_line_size;
+  unsigned char l3_size;
+  unsigned char l3_assoc;
+  unsigned char l3_lines_per_tag;
+  unsigned char l3_line_size;
+} L2AndL3CacheIdentifiers;
+
+/**
  * Stores all CPUID information about a processor.
  */
 typedef struct {
@@ -92,6 +114,7 @@ typedef struct {
   ProcessorExtendedStateEnumeration processor_extended_state_enumeration;
   ExtendedBrandId extended_brand_id;
   L1CacheIdentifiers l1_cache_identifiers;
+  L2AndL3CacheIdentifiers l2_and_l3_cache_identifiers;
 } CPUID;
 
 /**
@@ -193,5 +216,12 @@ void fn8000_0004(CPUID *cpuid);
  * \param cpuid A pointer to a CPUID structure.
  */
 void fn8000_0005(CPUID *cpuid);
+
+/**
+ * Gets information about the processor's L2 cache and TLB characteristics.
+ *
+ * \param cpuid A pointer to a CPUID structure.
+ */
+void fn8000_0006(CPUID *cpuid);
 
 #endif /* CPUID_H */
