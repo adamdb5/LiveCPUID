@@ -34,16 +34,16 @@ void fn0000_0001(CPUID *cpuid) {
 
   /* Read from EAX */
   cpuid->family.stepping = eax & MASK_STEPPING;
-  cpuid->family.base_model = eax & MASK_BASE_MODEL;
-  cpuid->family.base_family = eax & MASK_BASE_FAMILY;
-  cpuid->family.extended_model = eax & MASK_EXT_MODEL;
-  cpuid->family.extended_family = eax & MASK_EXT_FAMILY;
+  cpuid->family.base_model = (eax & MASK_BASE_MODEL) >> 4;
+  cpuid->family.base_family = (eax & MASK_BASE_FAMILY) >> 8;
+  cpuid->family.extended_model = (eax & MASK_EXT_MODEL) >> 16;
+  cpuid->family.extended_family = (eax & MASK_EXT_FAMILY) >> 20;
 
   /* Read from EBX */
   cpuid->misc.byte_brand_id = ebx & MASK_BYTE_BRAND_ID;
-  cpuid->misc.clflush_size = ebx & MASK_CLFLUSH;
-  cpuid->misc.logical_processor_count = ebx & MASK_LOGICAL_PROC_COUNT;
-  cpuid->misc.local_apcid_id = ebx & MASK_LOCAL_APIC_ID;
+  cpuid->misc.clflush_size = (ebx & MASK_CLFLUSH) >> 8;
+  cpuid->misc.logical_processor_count = (ebx & MASK_LOGICAL_PROC_COUNT) >> 16;
+  cpuid->misc.local_apcid_id = (ebx & MASK_LOCAL_APIC_ID) >> 24;
 
   /* Read features from ECX and EDX */
   cpuid->features.fn0000_0001_ecx = ecx;
@@ -115,8 +115,11 @@ void fn8000_0001(CPUID *cpuid) {
 
   do_cpuid(0x80000001, &eax, &ebx, &ecx, &edx);
 
-  cpuid->extended_brand_id.package_type = ebx & 0xF0000000;
+  cpuid->extended_brand_id.package_type = (ebx & 0xF0000000) >> 28;
   cpuid->extended_brand_id.brand_id = ebx & 0x0000FFFF;
+
+  cpuid->features.fn8000_0001_ecx = ecx;
+  cpuid->features.fn8000_0001_edx = edx;
 }
 
 void fn8000_0002(CPUID *cpuid) {
