@@ -41,4 +41,4 @@ make qemu
 Currently, LiveCPUID is able to obtain the CPU's brand string.
 The following example is from QEMU.
 
-![LiveCPUID in QEMU](https://adambruce.net/images/livecpuid/LiveCPUID_QEMU.png)
+![LiveCPUID in QEMU](https://adambruce.net/images/livecpuid/LiveCPUID_QEMU.png?)
