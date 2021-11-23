@@ -68,3 +68,12 @@ void zero_mem(void *buffer, unsigned int length) {
   for (i = 0; i < length; i++)
     c_buffer[i] = '\0';
 }
+
+unsigned int str_len(const char *buffer) {
+  unsigned int i = 0;
+
+  while(buffer[i] != '\0')
+    i++;
+
+  return i;
+}

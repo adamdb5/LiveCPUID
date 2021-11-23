@@ -14,6 +14,7 @@ typedef struct {
   unsigned char stepping;
   unsigned char base_model;
   unsigned char base_family;
+  unsigned char processor_type;
   unsigned char extended_model;
   unsigned char extended_family;
 } Family;

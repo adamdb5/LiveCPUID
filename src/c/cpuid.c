@@ -1,5 +1,7 @@
 #include "cpuid.h"
 
+#include "util.h"
+
 /* CPUID call */
 #if __i386__
 void do_cpuid(unsigned int leaf, unsigned int *eax, unsigned int *ebx,
@@ -32,12 +34,15 @@ void fn0000_0001(CPUID *cpuid) {
 
   do_cpuid(0x1, &eax, &ebx, &ecx, &edx);
 
+  // eax |= ;
+
   /* Read from EAX */
-  cpuid->family.stepping = eax & MASK_STEPPING;
-  cpuid->family.base_model = (eax & MASK_BASE_MODEL) >> 4;
-  cpuid->family.base_family = (eax & MASK_BASE_FAMILY) >> 8;
-  cpuid->family.extended_model = (eax & MASK_EXT_MODEL) >> 16;
-  cpuid->family.extended_family = (eax & MASK_EXT_FAMILY) >> 20;
+  cpuid->family.stepping        = (eax & 0xF     ) >> 0;
+  cpuid->family.base_model      = (eax & 0xF0 ) >> 4;
+  cpuid->family.base_family     = (eax & 0xF00) >> 8;
+  cpuid->family.processor_type  = (eax & 0b11000000000000) >> 12;
+  cpuid->family.extended_model  = (eax & 0xF0000  ) >> 16;
+  cpuid->family.extended_family = (eax & 0xFF00000 ) >> 20;
 
   /* Read from EBX */
   cpuid->misc.byte_brand_id = ebx & MASK_BYTE_BRAND_ID;
@@ -72,12 +77,18 @@ void fn0000_0006(CPUID *cpuid) {
 
 void fn0000_0007(CPUID *cpuid) {
   unsigned int eax, ebx, ecx, edx;
+  char buf[10];
 
-  ecx = 0;
   do_cpuid(0x7, &eax, &ebx, &ecx, &edx);
 
-  cpuid->structured_extended_feature_identifiers
-      .bit_manipulation_instruction_support = ebx & 0x00000004;
+  int_to_string(eax, buf, 16);
+
+  write_string("fn0000_0007.EAX = 0x", 20, 20, FG_ORANGE);
+  write_string(buf, 40, 20, FG_ORANGE);
+
+  cpuid->features.fn0000_0007_ebx = ebx;
+  cpuid->features.fn0000_0007_ecx = ecx;
+  cpuid->features.fn0000_0007_edx = edx;
 }
 
 void fn0000_000D(CPUID *cpuid) {
@@ -202,4 +213,16 @@ void fn8000_0006(CPUID *cpuid) {
   cpuid->l2_and_l3_cache_identifiers.l3_assoc = (edx & 0x0000F000) >> 12;
   cpuid->l2_and_l3_cache_identifiers.l3_lines_per_tag = (edx & 0x00000F00) >> 8;
   cpuid->l2_and_l3_cache_identifiers.l3_line_size = (edx & 0x000000FF);
+}
+
+void fn8000_0007(CPUID *cpuid) {
+  unsigned int eax, ebx, ecx, edx;
+
+  do_cpuid(0x80000001, &eax, &ebx, &ecx, &edx);
+
+  cpuid->extended_brand_id.package_type = (ebx & 0xF0000000) >> 28;
+  cpuid->extended_brand_id.brand_id = ebx & 0x0000FFFF;
+
+  cpuid->features.fn8000_0001_ecx = ecx;
+  cpuid->features.fn8000_0001_edx = edx;
 }

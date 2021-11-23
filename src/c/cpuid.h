@@ -224,4 +224,11 @@ void fn8000_0005(CPUID *cpuid);
  */
 void fn8000_0006(CPUID *cpuid);
 
+/**
+ * Advanced power management and more features.
+ *
+ * \param cpuid A pointer to a CPUID structure.
+ */
+void fn8000_0007(CPUID *cpuid);
+
 #endif /* CPUID_H */

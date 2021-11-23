@@ -33,7 +33,7 @@ void asm_entry() {
   if (cpuid.largest_standard_function_number >= 0x7)
     fn0000_0007(&cpuid);
   if (cpuid.largest_standard_function_number >= 0xD)
-    fn0000_000D(&cpuid);
+    fn0000_000D(&cpuid);  
 
   /* Query extended functions */
   fn8000_0000(&cpuid);
@@ -56,6 +56,34 @@ void asm_entry() {
     write_string(cpuid.processor_name, 32, current_line++, FG_YELLOW);
   else
     write_string("Not Supported", 32, current_line++, FG_YELLOW);
+
+  /* Family, model, stepping */
+  if(cpuid.family.base_family != 0xF)
+    int_to_string(cpuid.family.base_family, buffer, 16);
+  else
+    int_to_string(cpuid.family.base_family + cpuid.family.extended_family, buffer, 16);
+  write_string("Family:", 0, current_line, FG_WHITE);
+  write_string("0x", 8, current_line, FG_YELLOW);
+  write_string(buffer, 10, current_line, FG_YELLOW);
+
+  if(cpuid.family.base_family == 0x6 || cpuid.family.base_family == 0xF)
+    int_to_string((4 << cpuid.family.extended_model) + cpuid.family.base_model, buffer, 16);
+  else
+    int_to_string(cpuid.family.base_model, buffer, 16);
+  write_string("Model:", 20, current_line, FG_WHITE);
+  write_string("0x", 27, current_line, FG_YELLOW);
+  write_string(buffer, 29, current_line, FG_YELLOW);
+
+  int_to_string(cpuid.family.stepping, buffer, 16);
+  write_string("Stepping:", 40, current_line, FG_WHITE);
+  write_string("0x", 50, current_line, FG_YELLOW);
+  write_string(buffer, 52, current_line, FG_YELLOW);
+
+  int_to_string(cpuid.family.processor_type, buffer, 2);
+  write_string("Type:", 60, current_line, FG_WHITE);
+  write_string("0b", 66, current_line, FG_YELLOW);
+  write_string(buffer, 68, current_line++, FG_YELLOW);
+
 
   write_string("Features:", 0, current_line++, FG_WHITE);
   current_line +=

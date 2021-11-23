@@ -92,4 +92,6 @@ void reverse_string(char *buffer, unsigned int length);
  */ 
 void zero_mem(void *buffer, unsigned int length);
 
+unsigned int str_len(const char *buffer);
+
 #endif /* UTIL_H */
