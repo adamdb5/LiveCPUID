@@ -28,10 +28,10 @@ clean:
 	- @rm -f serial.log
 
 qemu: $(kernel)
-	qemu-system-x86_64 -vga std -cdrom build/$(isoname)
+	qemu-system-x86_64 -vga std -cdrom build/$(isoname) --enable-kvm
 
 qemu32: $(kernel)
-	qemu-system-i386 -vga std -cdrom build/$(isoname)
+	qemu-system-i386 -vga std -cdrom build/$(isoname) --enable-kvm
 
 qemu-gdb: $(kernel)
 	qemu-system-x86_64 -vga std -gdb tcp:localhost:1234 -S -cdrom build/$(isoname)
