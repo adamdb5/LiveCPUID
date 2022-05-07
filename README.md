@@ -1,4 +1,4 @@
-# [WIP] LiveCPUID
+# LiveCPUID
 
 ![LiveCPUID in QEMU](https://adambruce.net/images/livecpuid/LiveCPUID_QEMU.png?)
 
