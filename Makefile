@@ -10,8 +10,8 @@ LFLAGS  += -z max-page-size=4096 -melf_i386 -n
 #LD := ld
 
 # LLVM
-CC := clang
-LD := ld.lld
+#CC := clang
+#LD := ld.lld
 
 linker_script := linker.ld
 assembly_source_files := $(wildcard src/asm/*.s)
