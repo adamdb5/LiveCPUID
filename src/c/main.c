@@ -16,7 +16,7 @@ void asm_entry() {
   char buffer[9];
 
   write_string(" LiveCPUID v0.1                 ", 0, 0, FG_BRIGHT_WHITE);
-  write_string("(c) Adam Bruce 2021", 60, 0, FG_BRIGHT_WHITE);
+  write_string("(c) Adam Bruce 2022", 60, 0, FG_BRIGHT_WHITE);
   write_string("---------------------------------------------------------------"
                "-----------------",
                0, 1, FG_WHITE);
