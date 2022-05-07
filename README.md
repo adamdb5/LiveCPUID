@@ -1,6 +1,6 @@
 # LiveCPUID
 
-![LiveCPUID in QEMU](https://adambruce.net/images/livecpuid/LiveCPUID_QEMU.png?)
+![LiveCPUID in QEMU](images/qemu.png?)
 
 A bootable ISO to display CPU information for x86 processors that support the CPUID instruction.
 
