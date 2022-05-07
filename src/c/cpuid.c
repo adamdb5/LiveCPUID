@@ -34,8 +34,6 @@ void fn0000_0001(CPUID *cpuid) {
 
   do_cpuid(0x1, &eax, &ebx, &ecx, &edx);
 
-  // eax |= ;
-
   /* Read from EAX */
   cpuid->family.stepping        = (eax & 0xF     ) >> 0;
   cpuid->family.base_model      = (eax & 0xF0 ) >> 4;
@@ -77,15 +75,8 @@ void fn0000_0006(CPUID *cpuid) {
 
 void fn0000_0007(CPUID *cpuid) {
   unsigned int eax, ebx, ecx, edx;
-  char buf[10];
 
   do_cpuid(0x7, &eax, &ebx, &ecx, &edx);
-
-  int_to_string(eax, buf, 16);
-
-  write_string("fn0000_0007.EAX = 0x", 20, 20, FG_ORANGE);
-  write_string(buf, 40, 20, FG_ORANGE);
-
   cpuid->features.fn0000_0007_ebx = ebx;
   cpuid->features.fn0000_0007_ecx = ecx;
   cpuid->features.fn0000_0007_edx = edx;
